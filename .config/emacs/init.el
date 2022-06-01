@@ -444,4 +444,10 @@
 
 (add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
 
+;; YAML Files
+(use-package yaml-mode)
+
 ;; Dotfile Management
+(use-package homer
+  :demand t
+  :straight (homer :type git :host github :repo "joshuaharry/homer"))
