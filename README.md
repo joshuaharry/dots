@@ -7,6 +7,6 @@ Dotfiles for my Mac OS system.
 - GNU Utils
 - M+ 1n font
 - Emacs
-- fish
+- zsh
 - Ruby
 - Node 16
