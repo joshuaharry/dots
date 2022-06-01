@@ -1,0 +1,13 @@
+#!/bin/sh
+alias c='clear'
+alias l='exa -l'
+alias ls='exa -l'
+alias lh='exa -l -a'
+alias reload='unalias -a && . "$HOME"/.aliases.sh'
+alias nvim='printf "Why are you using vim instead of Emacs?\nTry using the full path if you really need it.\n"'
+alias vim='printf "Why are you using vim instead of Emacs?\nTry using the full path if you really need it.\n"'
+alias vi='printf "Why are you using vim instead of Emacs?\nTry using the full path if you really need it.\n"'
+alias v='printf "Why are you using vim instead of Emacs?\nTry using the full path if you really need it.\n"'
+alias sc='pwd > ~/.config/emacs/current-project'
+alias gp='cd $(cat ~/.config/emacs/current-project)'
+alias rimraf='rm -rf'

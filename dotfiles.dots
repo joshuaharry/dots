@@ -1,0 +1,12 @@
+~/.aliases.sh
+~/.config/emacs/early-init.el
+~/.config/emacs/init.el
+~/.config/emacs/snippets
+~/.gitconfig
+~/.gitignore_global
+~/.zprofile
+~/.zshrc
+~/bin
+~/dotfiles.dots
+~/LICENSE.md
+~/README.md

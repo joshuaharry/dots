@@ -1,0 +1,2 @@
+#!/bin/sh
+curl https://www.toptal.com/developers/gitignore/api/"$1" >.gitignore

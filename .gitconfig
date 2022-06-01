@@ -1,0 +1,13 @@
+[user]
+	email = joshuaharry411@icloud.com
+	name = Joshua Hoeflich
+[init]
+	defaultBranch = main
+[alias]
+	co = checkout
+	sl = log --pretty=format:'%C(bold cyan)%h%Creset -%C(white)%d%Creset %s %Cgreen(%cr) %C(yellow)<%an>%Creset' --abbrev-commit -n 10
+	b  = branch
+	cob = checkout -b
+[core]
+	editor = /usr/bin/vim
+	excludesfile = /Users/joshuahoeflich/.gitignore_global

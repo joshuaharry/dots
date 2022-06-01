@@ -1,0 +1,4 @@
+# name: str
+# key: str
+# --
+# frozen_string_literal: true
