@@ -293,9 +293,6 @@
 (setq esup-depth 0)
 (use-package esup)
 
-;; Unit Testing
-(use-package buttercup :demand t)
-
 ;; Path Configuration
 (use-package exec-path-from-shell)
 (setq exec-path-from-shell-arguments nil)
