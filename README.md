@@ -1,5 +1,4 @@
 # Dots
-
 Dotfiles for my Mac OS system.
 
 ## System Dependencies

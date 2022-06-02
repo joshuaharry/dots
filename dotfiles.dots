@@ -2,11 +2,12 @@
 ~/.config/emacs/early-init.el
 ~/.config/emacs/init.el
 ~/.config/emacs/snippets
+~/.config/nvim/init.vim
 ~/.gitconfig
 ~/.gitignore_global
 ~/.zprofile
 ~/.zshrc
-~/bin
-~/dotfiles.dots
 ~/LICENSE.md
 ~/README.md
+~/bin
+~/dotfiles.dots

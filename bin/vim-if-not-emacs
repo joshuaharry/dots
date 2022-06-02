@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ "$TERM" = eterm-color ]; then
+  printf "Why are you using vim inside emacs?\n";
+  printf "Open up an external terminal if you really need it.\n";
+  exit 0;
+fi
+
+nvim "$@"

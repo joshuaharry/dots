@@ -14,6 +14,10 @@ zinit load agkozak/agkozak-zsh-prompt
 # by reloading our .zprofile init.
 source "$HOME"/.zprofile
 
+if ! [ "$TERM" = eterm-color ]; then
+    set -o vi
+fi
+
 source "$HOME"/.aliases.sh
 export ELDEV_EMACS=emacs
 setopt auto_cd
