@@ -1,7 +1,7 @@
 #!/bin/sh
-if [ "$TERM" = eterm-color ]; then
+if ! [ "$TERM" = xterm-kitty ]; then
   printf "Why are you using vim inside emacs?\n";
-  printf "Open up an external terminal if you really need it.\n";
+  printf "Open up kitty if you really need it.\n";
   exit 0;
 fi
 

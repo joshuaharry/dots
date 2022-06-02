@@ -49,10 +49,10 @@
 (global-set-key (kbd "C-z") #'undo)
 (global-set-key (kbd "M-q") #'kill-emacs)
 
-(defun google ()
-  "Go to Google.com inside of Emacs."
+(defun duckduckgo ()
+  "Go to duckduckgo.com inside of Emacs."
   (interactive)
-  (eww "https://google.com"))
+  (eww "https://duckduckgo.com"))
 
 ;; Font configuration
 (defvar *jlib/default-font-size* 200
@@ -214,15 +214,18 @@
 (setq initial-buffer-choice (jlib/get-current-project))
 
 ;; Terminal Management
+(defvar *jlib/terminal-function* #'ansi-term
+  "Function for summoning a terminal emulator.")
+
 (defun jlib/shell ()
   "Quickly open up an `ansi-term' using the fish shell."
   (interactive)
-  (ansi-term (getenv "SHELL")))
+  (funcall *jlib/terminal-function* (getenv "SHELL")))
 
 (defun jlib/goto-shell ()
   "Switch to or open up a `ansi-term' buffer with my terminal."
   (interactive)
-  (let ((jlib/terminal-buffer (get-buffer "*ansi-term*")))
+  (let ((jlib/terminal-buffer (get-buffer "/bin/zsh")))
     (if jlib/terminal-buffer (switch-to-buffer jlib/terminal-buffer)
       (jlib/shell))))
 
@@ -448,3 +451,7 @@
 (use-package homer
   :demand t
   :straight (homer :type git :host github :repo "joshuaharry/homer"))
+
+;; Better Terminal Emulation
+(use-package vterm)
+(setq *jlib/terminal-function* #'vterm)
