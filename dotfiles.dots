@@ -2,6 +2,7 @@
 ~/.config/emacs/early-init.el
 ~/.config/emacs/init.el
 ~/.config/emacs/snippets
+~/.config/kitty
 ~/.config/nvim/init.vim
 ~/.gitconfig
 ~/.gitignore_global
