@@ -339,10 +339,12 @@
 (set-face-background 'company-tooltip-selection "#353535")
 
 ;; LISP Development
-(use-package cider)
 (use-package rainbow-delimiters)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'lisp-interaction-mode-hook #'rainbow-delimiters-mode)
+
+;; Clojure
+(use-package cider)
 
 (defun jlib/clojure-mode-hook ()
   "Hook for editing Clojure code."
@@ -350,6 +352,9 @@
   (rainbow-delimiters-mode))
 
 (add-hook 'clojure-mode-hook #'jlib/clojure-mode-hook)
+
+;; Common LISP
+(use-package sly)
 
 ;; Documentation
 (use-package olivetti)
@@ -397,6 +402,26 @@
 ;; In the major mode hook for a particular buffer. 
 (use-package lsp-mode)
 
+;; Ruby/Rails
+(use-package inf-ruby)
+
+(add-to-list
+ 'display-buffer-alist
+ `("ruby"
+   (display-buffer-at-bottom)
+   (window-height . 0.25)))
+
+(defun jlib/ruby-mode-hook ()
+  "Hook for editing Ruby code."
+  (interactive)
+  (setq-local
+   lsp-diagnostics-provider :auto
+   lsp-modeline-diagnostics-enable t)
+  (define-key ruby-mode-map (kbd "C-c C-c") #'ruby-send-buffer)
+  (define-key ruby-mode-map (kbd "C-c p") #'lsp-format-buffer))
+
+(add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
+
 ;; Web Mode Formatting
 (use-package web-mode)
 (use-package prettier-js :demand t)
@@ -423,26 +448,6 @@
   (modify-syntax-entry ?' "\"" web-mode-syntax-table))
 
 (add-hook 'web-mode-hook #'jlib/web-mode-hook)
-
-;; Ruby/Rails
-(use-package inf-ruby)
-
-(add-to-list
- 'display-buffer-alist
- `("ruby"
-   (display-buffer-at-bottom)
-   (window-height . 0.25)))
-
-(defun jlib/ruby-mode-hook ()
-  "Hook for editing Ruby code."
-  (interactive)
-  (setq-local
-   lsp-diagnostics-provider :auto
-   lsp-modeline-diagnostics-enable t)
-  (define-key ruby-mode-map (kbd "C-c C-c") #'ruby-send-buffer)
-  (define-key ruby-mode-map (kbd "C-c p") #'lsp-format-buffer))
-
-(add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
 
 ;; YAML Files
 (use-package yaml-mode)
