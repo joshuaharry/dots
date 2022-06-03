@@ -483,4 +483,11 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . erb-mode))
 (push '(erb-mode . ("htmlbeautifier")) apheleia-formatters)
 
+(defun jlib/erb-mode-hook ()
+  "My custom hook for erb mode."
+  (interactive)
+  (setq-local apheleia-formatter '(erb-mode)))
+
+(add-hook 'erb-mode-hook #'jlib/erb-mode-hook)
+
 (use-package lsp-tailwindcss)
