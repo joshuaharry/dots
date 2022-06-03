@@ -139,23 +139,12 @@
   (indent-region (point-min) (point-max))
   (message "Buffer indented successfully."))
 
-(defun jlib/emacs-lisp-mode ()
-  "My personal settings for editing Emacs LISP."
-  (interactive)
-  (define-key emacs-lisp-mode-map (kbd "C-c p") #'jlib/indent-lisp))
-
-(add-hook 'emacs-lisp-mode-hook #'jlib/emacs-lisp-mode)
-
 (defun jlib/lisp-interaction-mode ()
   "My personal settings for LISP interaction mode."
   (interactive)
-  (define-key lisp-interaction-mode-map (kbd "C-j") #'set-mark-command)
-  (define-key lisp-interaction-mode-map (kbd "C-c p") #'jlib/indent-lisp))
+  (define-key lisp-interaction-mode-map (kbd "C-j") #'set-mark-command))
 
-(add-hook 'emacs-lisp-mode-hook #'jlib/emacs-lisp-mode)
 (add-hook 'lisp-interaction-mode-hook #'jlib/lisp-interaction-mode)
-
-;; Web Development
 
 ;; Project Management
 (put 'dired-find-alternate-file 'disabled nil)
@@ -310,22 +299,6 @@
   :demand t
   :config (ctrlf-mode))
 
-;; Automatic Formatting
-(use-package apheleia :demand t)
-
-(defun jlib/format-buffer ()
-  "Format the current buffer and provide a message letting me know something happened."
-  (interactive)
-  (save-buffer)
-  (let ((formatters (apheleia--get-formatters)))
-    (if (not formatters)
-	(message "No formatter configured for this buffer")
-      (apheleia-format-buffer
-       formatters
-       (lambda ()  (message "Buffer formatted successfully."))))))
-
-(global-set-key (kbd "C-c p") #'jlib/format-buffer)
-
 (use-package company
   :demand t
   :config
@@ -362,12 +335,7 @@
 ;; Clojure
 (use-package cider)
 
-(defun jlib/clojure-mode-hook ()
-  "Hook for editing Clojure code."
-  (define-key clojure-mode-map (kbd "C-c p") #'jlib/indent-lisp)
-  (rainbow-delimiters-mode))
-
-(add-hook 'clojure-mode-hook #'jlib/clojure-mode-hook)
+(add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 
 ;; Common LISP
 (use-package sly)
@@ -377,11 +345,6 @@
 
 ;; JSON files
 (use-package json-mode)
-
-;; Dotfile Management
-(use-package homer
-  :demand t
-  :straight (homer :type git :host github :repo "joshuaharry/homer"))
 
 ;; Better Terminal Emulation
 (use-package vterm)
@@ -398,6 +361,74 @@
   (olivetti-mode))
 
 (add-hook 'markdown-mode-hook #'jlib/writing-mode-hook)
+
+;; Ruby/Rails
+(use-package inf-ruby)
+
+(add-to-list
+ 'display-buffer-alist
+ `("ruby"
+   (display-buffer-at-bottom)
+   (window-height . 0.25)))
+
+(defun jlib/ruby-mode-hook ()
+  "Hook for editing Ruby code."
+  (interactive)
+  (setq-local
+   lsp-diagnostics-provider :auto
+   lsp-modeline-diagnostics-enable t)
+  (define-key ruby-mode-map (kbd "C-c C-c") #'ruby-send-buffer))
+
+(add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
+
+;; Web Mode Formatting
+(use-package web-mode)
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode)) 
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode)) 
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode)) 
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+
+(defun jlib/web-mode-hook ()
+  "Hook for entering and editing web mode files."
+  (setq
+   web-mode-auto-close-style 2
+   web-mode-markup-indent-offset 2
+   web-mode-enable-auto-quoting nil
+   web-mode-css-indent-offset 2
+   web-mode-code-indent-offset 2)
+  ;; Treat ' as a string. I spent *years* trying to figure out how to make
+  ;; web-mode do this correctly, and I only found the solution after I tried
+  ;; to write a major mode of my own. You live and you learn :)
+  (modify-syntax-entry ?' "\"" web-mode-syntax-table))
+
+(add-hook 'web-mode-hook #'jlib/web-mode-hook)
+
+;; Dotfile Management
+(use-package homer
+  :demand t
+  :straight (homer :type git :host github :repo "joshuaharry/homer"))
+
+;; Code Formatting
+(use-package efmt
+  :demand t
+  :straight (efmt :type git :host github :repo "joshuaharry/efmt"))
+
+(setq *efmt-format-alist*
+      `(("js" ("prettier" "-w" "<TARGET>"))
+	("jsx" ("prettier" "-w" "<TARGET>"))
+	("ts" ("prettier" "-w" "<TARGET>"))
+	("tsx" ("prettier" "-w" "<TARGET>"))
+	("erb" ("htmlbeautifier" "<TARGET>"))
+	;; Not defined here, but it will be...
+	("rb" ,#'lsp-format-buffer)
+	("lisp" ,#'jlib/indent-lisp)
+	("el" ,#'jlib/indent-lisp)
+	("clj" ,#'jlib/indent-lisp)))
+
+(global-set-key (kbd "C-c p") #'efmt)
 
 ;; Language Server Integration
 
@@ -433,61 +464,5 @@
 (use-package lsp-mode
   :config (add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html")))
 
-;; Ruby/Rails
-(use-package inf-ruby)
-
-(add-to-list
- 'display-buffer-alist
- `("ruby"
-   (display-buffer-at-bottom)
-   (window-height . 0.25)))
-
-(defun jlib/ruby-mode-hook ()
-  "Hook for editing Ruby code."
-  (interactive)
-  (setq-local
-   lsp-diagnostics-provider :auto
-   lsp-modeline-diagnostics-enable t)
-  (define-key ruby-mode-map (kbd "C-c C-c") #'ruby-send-buffer)
-  (define-key ruby-mode-map (kbd "C-c p") #'lsp-format-buffer))
-
-(add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
-
-;; Web Mode Formatting
-(use-package web-mode)
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode)) 
-(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode)) 
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode)) 
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-
-(defun jlib/web-mode-hook ()
-  "Hook for entering and editing web mode files."
-  (setq
-   web-mode-auto-close-style 2
-   web-mode-markup-indent-offset 2
-   web-mode-enable-auto-quoting nil
-   web-mode-css-indent-offset 2
-   web-mode-code-indent-offset 2)
-  ;; Treat ' as a string. I spent *years* trying to figure out how to make
-  ;; web-mode do this correctly, and I only found the solution after I tried
-  ;; to write a major mode of my own. You live and you learn :)
-  (modify-syntax-entry ?' "\"" web-mode-syntax-table))
-
-(add-hook 'web-mode-hook #'jlib/web-mode-hook)
-
-;; Tailwind CSS & ERB Files
-(define-derived-mode erb-mode web-mode "ERB mode"
-  "Mode for editing ERB files.")
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . erb-mode))
-(push '(erb-mode . ("htmlbeautifier")) apheleia-formatters)
-
-(defun jlib/erb-mode-hook ()
-  "My custom hook for erb mode."
-  (interactive)
-  (setq-local apheleia-formatter '(erb-mode)))
-
-(add-hook 'erb-mode-hook #'jlib/erb-mode-hook)
-
+;; Tailwind CSS
 (use-package lsp-tailwindcss)
