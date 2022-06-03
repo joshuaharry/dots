@@ -310,6 +310,22 @@
   :demand t
   :config (ctrlf-mode))
 
+;; Automatic Formatting
+(use-package apheleia :demand t)
+
+(defun jlib/format-buffer ()
+  "Format the current buffer and provide a message letting me know something happened."
+  (interactive)
+  (save-buffer)
+  (let ((formatters (apheleia--get-formatters)))
+    (if (not formatters)
+	(message "No formatter configured for this buffer")
+      (apheleia-format-buffer
+       formatters
+       (lambda ()  (message "Buffer formatted successfully."))))))
+
+(global-set-key (kbd "C-c p") #'jlib/format-buffer)
+
 (use-package company
   :demand t
   :config
@@ -356,6 +372,21 @@
 ;; Common LISP
 (use-package sly)
 
+;; YAML Files
+(use-package yaml-mode)
+
+;; JSON files
+(use-package json-mode)
+
+;; Dotfile Management
+(use-package homer
+  :demand t
+  :straight (homer :type git :host github :repo "joshuaharry/homer"))
+
+;; Better Terminal Emulation
+(use-package vterm)
+(setq *jlib/terminal-function* #'vterm)
+
 ;; Documentation
 (use-package olivetti)
 (use-package markdown-mode)
@@ -372,7 +403,6 @@
 
 ;; Disable most of the features that come with LSP mode; I only use it for
 ;; linting, autocomplete, and automatic formatting most of the time.
-
 (setq
  lsp-enable-symbol-highlighting nil
  lsp-enable-indentation nil
@@ -400,7 +430,8 @@
 ;; 	       lsp-modeline-diagnostics-enable nil)
 ;;
 ;; In the major mode hook for a particular buffer. 
-(use-package lsp-mode)
+(use-package lsp-mode
+  :config (add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html")))
 
 ;; Ruby/Rails
 (use-package inf-ruby)
@@ -424,14 +455,12 @@
 
 ;; Web Mode Formatting
 (use-package web-mode)
-(use-package prettier-js :demand t)
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode)) 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode)) 
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode)) 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 
 (defun jlib/web-mode-hook ()
   "Hook for entering and editing web mode files."
@@ -441,7 +470,6 @@
    web-mode-enable-auto-quoting nil
    web-mode-css-indent-offset 2
    web-mode-code-indent-offset 2)
-  (define-key web-mode-map (kbd "C-c p") #'prettier-js)
   ;; Treat ' as a string. I spent *years* trying to figure out how to make
   ;; web-mode do this correctly, and I only found the solution after I tried
   ;; to write a major mode of my own. You live and you learn :)
@@ -449,14 +477,10 @@
 
 (add-hook 'web-mode-hook #'jlib/web-mode-hook)
 
-;; YAML Files
-(use-package yaml-mode)
+;; Tailwind CSS & ERB Files
+(define-derived-mode erb-mode web-mode "ERB mode"
+  "Mode for editing ERB files.")
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . erb-mode))
+(push '(erb-mode . ("htmlbeautifier")) apheleia-formatters)
 
-;; Dotfile Management
-(use-package homer
-  :demand t
-  :straight (homer :type git :host github :repo "joshuaharry/homer"))
-
-;; Better Terminal Emulation
-(use-package vterm)
-(setq *jlib/terminal-function* #'vterm)
+(use-package lsp-tailwindcss)
