@@ -14,7 +14,7 @@ zinit load agkozak/agkozak-zsh-prompt
 # by reloading our .zprofile init.
 source "$HOME"/.zprofile
 
-if ! [ "$TERM" = eterm-color ]; then
+if ! [ "$TERM" = xterm-256color ]; then
     set -o vi
 fi
 
