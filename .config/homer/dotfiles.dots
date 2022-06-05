@@ -1,8 +1,10 @@
 ~/.aliases.sh
+~/.config/nvim/init.lua
 ~/.config/emacs/early-init.el
 ~/.config/emacs/init.el
 ~/.config/emacs/snippets
 ~/.config/homer/dotfiles.dots
+~/.config/kitty
 ~/.gitconfig
 ~/.gitignore_global
 ~/.zprofile

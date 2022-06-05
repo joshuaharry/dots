@@ -1,5 +1,6 @@
 #!/bin/sh
 alias c='clear'
+alias dots='vim-if-not-emacs ~/.config/homer/dotfiles.dots'
 alias gp='cd $(cat ~/.config/emacs/current-project)'
 alias l='exa -l'
 alias lh='exa -l -a'
