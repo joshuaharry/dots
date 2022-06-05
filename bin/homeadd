@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-File.readlines("#{ENV['HOME']}/dotfiles.dots").each do |line|
+File.readlines("#{ENV['HOME']}/.config/homer/dotfiles.dots").each do |line|
   `home add #{line}`
 end

@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'fileutils'
+
+ARGV.each do |a_file|
+  FileUtils.mv(a_file, "#{ENV['HOME']}/code/scratch")
+end

@@ -9,5 +9,6 @@
 	b  = branch
 	cob = checkout -b
 [core]
-	editor = /usr/bin/vim
+	editor = /opt/homebrew/bin/nvim
 	excludesfile = /Users/joshuahoeflich/.gitignore_global
+
