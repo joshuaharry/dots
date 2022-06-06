@@ -370,6 +370,25 @@
 
 (add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
 
+(defun rails (project-dir)
+  "Start a terminal that runs rails/a terminal that runs tests."
+  (interactive
+   (list (read-directory-name "Where is this Rails project? " default-directory)))
+  (message project-dir)
+  (split-window-horizontally)
+  (windmove-right)
+  (jlib/shell)
+  (rename-buffer "rails-server")
+  (vterm-send-string "./bin/dev")
+  (vterm-send-return)
+  (jlib/shell)
+  (rename-buffer "rails-tests")
+  (vterm-send-string "watchexec -c -e rb,erb ./bin/rails test")
+  (vterm-send-return)
+  (jlib/shell)
+  (rename-buffer "rails")
+  (windmove-left))
+
 ;; Web Mode Formatting
 (use-package web-mode)
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
