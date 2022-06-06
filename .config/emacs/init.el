@@ -429,6 +429,7 @@
 	("jsx" ("prettier" "-w" "<TARGET>"))
 	("ts" ("prettier" "-w" "<TARGET>"))
 	("tsx" ("prettier" "-w" "<TARGET>"))
+	("md" ("prettier" "-w" "<TARGET>"))
 	("erb" ("htmlbeautifier" "<TARGET>"))
 	;; Not defined here, but it will be...
 	("rb" ,#'lsp-format-buffer)
