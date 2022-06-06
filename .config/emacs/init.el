@@ -207,44 +207,37 @@
   "Function for summoning a terminal emulator.")
 
 (defun jlib/shell ()
-  "Quickly open up an `ansi-term' using the fish shell."
+  "Quickly open up a terminal using the specified `*jlib/terminal-function'."
   (interactive)
   (funcall *jlib/terminal-function* (getenv "SHELL")))
-
-(defun jlib/goto-shell ()
-  "Switch to or open up a `ansi-term' buffer with my terminal."
-  (interactive)
-  (let ((jlib/terminal-buffer (get-buffer "/bin/zsh")))
-    (if jlib/terminal-buffer (switch-to-buffer jlib/terminal-buffer)
-      (jlib/shell))))
 
 (defun jlib/terminal-right ()
   "Open a terminal to the right."
   (interactive)
   (split-window-right)
   (windmove-right)
-  (jlib/goto-shell))
+  (jlib/shell))
 
 (defun jlib/terminal-left ()
   "Open a terminal to the left."
   (interactive)
   (split-window-right)
-  (jlib/goto-shell))
+  (jlib/shell))
 
 (defun jlib/terminal-down ()
   "Open a terminal below."
   (interactive)
   (split-window-below)
   (windmove-down)
-  (jlib/goto-shell))
+  (jlib/shell))
 
 (defun jlib/terminal-up ()
   "Open a terminal above."
   (interactive)
   (split-window-below)
-  (jlib/goto-shell))
+  (jlib/shell))
 
-(global-set-key (kbd "C-c t t") #'jlib/goto-shell)
+(global-set-key (kbd "C-c t t") #'jlib/shell)
 (global-set-key (kbd "C-c t l") #'jlib/terminal-right)
 (global-set-key (kbd "C-c t h") #'jlib/terminal-left)
 (global-set-key (kbd "C-c t j") #'jlib/terminal-down)
@@ -334,7 +327,6 @@
 
 ;; Clojure
 (use-package cider)
-
 (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 
 ;; Common LISP
@@ -374,9 +366,6 @@
 (defun jlib/ruby-mode-hook ()
   "Hook for editing Ruby code."
   (interactive)
-  (setq-local
-   lsp-diagnostics-provider :auto
-   lsp-modeline-diagnostics-enable t)
   (define-key ruby-mode-map (kbd "C-c C-c") #'ruby-send-buffer))
 
 (add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
@@ -463,6 +452,8 @@
 ;; In the major mode hook for a particular buffer. 
 (use-package lsp-mode
   :config (add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html")))
+
+(add-hook 'ruby-mode-hook #'lsp)
 
 ;; Tailwind CSS
 (use-package lsp-tailwindcss)
