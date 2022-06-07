@@ -389,6 +389,19 @@
   (rename-buffer "rails")
   (windmove-left))
 
+(defun jlib/--kill-when-exists (buf)
+  "Kill the buffer BUF when it exists; otherwise, do nothing."
+  (when (bufferp (get-buffer buf))
+    (kill-buffer buf)))
+
+(defun kill-rails ()
+  "Destroy all the rails buffers/processes that are currently open."
+  (interactive)
+  (let ((kill-buffer-query-functions nil))
+    (jlib/--kill-when-exists "rails")
+    (jlib/--kill-when-exists "rails-server")
+    (jlib/--kill-when-exists "rails-tests")))
+
 ;; Web Mode Formatting
 (use-package web-mode)
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
