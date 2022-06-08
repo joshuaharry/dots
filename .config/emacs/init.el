@@ -11,6 +11,7 @@
 (setq mac-right-command-modifier 'control
       mac-command-modifier 'meta
       show-paren-delay 0
+      js-indent-level 2
       ring-bell-function #'ignore
       insert-directory-program "/opt/homebrew/bin/gls"
       backup-directory-alist '(("." . "~/.config/emacs/backups"))
