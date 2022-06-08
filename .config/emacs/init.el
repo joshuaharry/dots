@@ -442,6 +442,7 @@
 	("jsx" ("prettier" "-w" "<TARGET>"))
 	("ts" ("prettier" "-w" "<TARGET>"))
 	("tsx" ("prettier" "-w" "<TARGET>"))
+	("json" ("prettier" "-w" "<TARGET>"))
 	("md" ("prettier" "-w" "<TARGET>"))
 	("erb" ("htmlbeautifier" "<TARGET>"))
 	;; Not defined here, but it will be...
