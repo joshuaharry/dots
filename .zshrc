@@ -9,7 +9,9 @@ source "$ZINIT_PATH"/bin/zinit.zsh
 zinit light zsh-users/zsh-autosuggestions
 zinit light zdharma/fast-syntax-highlighting
 zinit light ael-code/zsh-colored-man-pages
-zinit load agkozak/agkozak-zsh-prompt
+zinit ice pick"async.zsh" src"pure.zsh" # with zsh-async library that's bundled with it.
+zinit light sindresorhus/pure
+
 # Unfortunately, zinit changes the path in an undesired way; change it back
 # by reloading our .zprofile init.
 source "$HOME"/.zprofile
