@@ -388,6 +388,8 @@
   (windmove-right)
   (jlib/--spawn-vterm "rails-server" project-dir "./bin/dev")
   (jlib/--spawn-vterm "rails-tests" project-dir "watchexec -c -e rb,erb ./bin/rails test")
+  (jlib/shell)
+  (rename-buffer "rails")
   (windmove-left))
 
 (defun npm (project-dir)
@@ -398,6 +400,8 @@
   (windmove-right)
   (jlib/--spawn-vterm "npm-start" project-dir "npm start")
   (jlib/--spawn-vterm "npm-test" project-dir "npm test")
+  (jlib/shell)
+  (rename-buffer "npm")
   (windmove-left))
 
 (defun jlib/--kill-when-exists (buf)
@@ -513,25 +517,3 @@
 
 ;; Tailwind CSS
 (use-package lsp-tailwindcss)
-
-;; Gradelessly
-(defun gradelessly ()
-  "Project specific command to spin up all the terminals I need for Gradelessly."
-  (interactive)
-  (let ((project-dir (jlib/get-current-project)))
-    (rails (jlib/path-join project-dir "rails"))
-    (delete-other-windows)
-    (npm (jlib/path-join project-dir "run-lisp"))
-    (windmove-right)
-    (jlib/shell)
-    (rename-buffer "control-panel")
-    (windmove-left)))
-
-(defun kill-gradelessly ()
-  "Project specific command to destroy the terminals I need for Gradelessly."
-  (interactive)
-  (let ((kill-buffer-query-functions nil))
-    (kill-rails)
-    (kill-npm)
-    (jlib/--kill-when-exists "control-panel")))
-
