@@ -371,23 +371,33 @@
 
 (add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
 
+(defun jlib/--spawn-vterm (buffer-name project-dir command)
+  "Create a buffer named BUFFER-NAME and invoke COMMAND inside of PROJECT_DIR."
+  (jlib/shell)
+  (rename-buffer buffer-name)
+  (vterm-send-string (concat "cd " project-dir))
+  (vterm-send-return)
+  (vterm-send-string command)
+  (vterm-send-return))
+
 (defun rails (project-dir)
-  "Start a terminal that runs rails/a terminal that runs tests."
+  "Start a terminal that runs rails server /a terminal that runs rails test."
   (interactive
    (list (read-directory-name "Where is this Rails project? " default-directory)))
-  (message project-dir)
   (split-window-horizontally)
   (windmove-right)
-  (jlib/shell)
-  (rename-buffer "rails-server")
-  (vterm-send-string "./bin/dev")
-  (vterm-send-return)
-  (jlib/shell)
-  (rename-buffer "rails-tests")
-  (vterm-send-string "watchexec -c -e rb,erb ./bin/rails test")
-  (vterm-send-return)
-  (jlib/shell)
-  (rename-buffer "rails")
+  (jlib/--spawn-vterm "rails-server" project-dir "./bin/dev")
+  (jlib/--spawn-vterm "rails-tests" project-dir "watchexec -c -e rb,erb ./bin/rails test")
+  (windmove-left))
+
+(defun npm (project-dir)
+  "Start a terminal that runs npm test/npm start."
+  (interactive
+   (list (read-directory-name "Where is this npm project? " default-directory)))
+  (split-window-horizontally)
+  (windmove-right)
+  (jlib/--spawn-vterm "npm-start" project-dir "npm start")
+  (jlib/--spawn-vterm "npm-test" project-dir "npm test")
   (windmove-left))
 
 (defun jlib/--kill-when-exists (buf)
@@ -402,6 +412,14 @@
     (jlib/--kill-when-exists "rails")
     (jlib/--kill-when-exists "rails-server")
     (jlib/--kill-when-exists "rails-tests")))
+
+(defun kill-npm ()
+  "Kill all of the npm buffers/processes that are currently open."
+  (interactive)
+  (let ((kill-buffer-query-functions nil))
+    (jlib/--kill-when-exists "npm")
+    (jlib/--kill-when-exists "npm-test")
+    (jlib/--kill-when-exists "npm-start")))
 
 ;; Web Mode Formatting
 (use-package web-mode)
@@ -445,6 +463,9 @@
 	("tsx" ("prettier" "-w" "<TARGET>"))
 	("json" ("prettier" "-w" "<TARGET>"))
 	("md" ("prettier" "-w" "<TARGET>"))
+	("html" ("prettier" "-w" "<TARGET>"))
+	("yml" ("prettier" "-w" "<TARGET>"))
+	("yaml" ("prettier" "-w" "<TARGET>"))
 	("erb" ("htmlbeautifier" "<TARGET>"))
 	;; Not defined here, but it will be...
 	("rb" ,#'lsp-format-buffer)
@@ -492,3 +513,23 @@
 
 ;; Tailwind CSS
 (use-package lsp-tailwindcss)
+
+;; Gradelessly
+(defun gradelessly ()
+  "Project specific command to spin up all the terminals I need for Gradelessly."
+  (interactive)
+  (let ((project-dir (jlib/get-current-project)))
+    (rails (jlib/path-join project-dir "rails"))
+    (delete-other-windows)
+    (npm (jlib/path-join project-dir "run-lisp"))
+    (windmove-right)
+    (jlib/shell)
+    (rename-buffer "control-panel")
+    (windmove-left)))
+
+(defun kill-gradelessly ()
+  "Project specific command to destroy the terminals I need for Gradelessly."
+  (interactive)
+  (kill-rails)
+  (kill-npm)
+  (jlib/--kill-when-exists "control-panel"))
