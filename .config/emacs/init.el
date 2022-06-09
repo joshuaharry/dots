@@ -530,6 +530,8 @@
 (defun kill-gradelessly ()
   "Project specific command to destroy the terminals I need for Gradelessly."
   (interactive)
-  (kill-rails)
-  (kill-npm)
-  (jlib/--kill-when-exists "control-panel"))
+  (let ((kill-buffer-query-functions nil))
+    (kill-rails)
+    (kill-npm)
+    (jlib/--kill-when-exists "control-panel")))
+
