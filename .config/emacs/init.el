@@ -15,6 +15,7 @@
       ring-bell-function #'ignore
       insert-directory-program "/opt/homebrew/bin/gls"
       backup-directory-alist '(("." . "~/.config/emacs/backups"))
+      lock-file-name-transforms '((".*" "~/.config/emacs/lockfiles" t))
       dired-use-ls-dired 0)
 
 ;;; Simple, good enough modeline
@@ -355,6 +356,9 @@
 
 (add-hook 'markdown-mode-hook #'jlib/writing-mode-hook)
 
+;; Golang
+(use-package go-mode)
+
 ;; Ruby/Rails
 (use-package inf-ruby)
 
@@ -471,6 +475,7 @@
 	("yml" ("prettier" "-w" "<TARGET>"))
 	("yaml" ("prettier" "-w" "<TARGET>"))
 	("erb" ("htmlbeautifier" "<TARGET>"))
+	("go" ("gofmt" "-w" "<TARGET>"))
 	;; Not defined here, but it will be...
 	("rb" ,#'lsp-format-buffer)
 	("lisp" ,#'jlib/indent-lisp)
