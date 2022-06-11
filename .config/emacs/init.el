@@ -340,6 +340,10 @@
 ;; JSON files
 (use-package json-mode)
 
+;; Docker
+(use-package dockerfile-mode)
+(use-package docker)
+
 ;; Better Terminal Emulation
 (use-package vterm)
 (setq *jlib/terminal-function* #'vterm)
@@ -519,6 +523,3 @@
   :config (add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html")))
 
 (add-hook 'ruby-mode-hook #'lsp)
-
-;; Tailwind CSS
-(use-package lsp-tailwindcss)
