@@ -14,4 +14,5 @@ export PATH=/opt/homebrew/opt/node@16/bin:\
 ~/.local/bin:\
 ~/go/bin:\
 /Applications/Emacs.app/Contents/MacOS/bin-arm64-11:\
-/Applications/Emacs.app/Contents/MacOS/libexec-arm64-11
+/Applications/Emacs.app/Contents/MacOS/libexec-arm64-11:\
+/Library/TeX/texbin

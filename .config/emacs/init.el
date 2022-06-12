@@ -341,8 +341,8 @@
 (use-package json-mode)
 
 ;; Docker
-(use-package dockerfile-mode)
 (use-package docker)
+(use-package dockerfile-mode)
 
 ;; Better Terminal Emulation
 (use-package vterm)
@@ -478,9 +478,9 @@
 	("html" ("prettier" "-w" "<TARGET>"))
 	("yml" ("prettier" "-w" "<TARGET>"))
 	("yaml" ("prettier" "-w" "<TARGET>"))
-	("erb" ("htmlbeautifier" "<TARGET>"))
-	("go" ("gofmt" "-w" "<TARGET>"))
 	;; Not defined here, but it will be...
+	("erb" ("htmlbeautifier" "<TARGET>"))
+	("go" ,#'gofmt)
 	("rb" ,#'lsp-format-buffer)
 	("lisp" ,#'jlib/indent-lisp)
 	("el" ,#'jlib/indent-lisp)

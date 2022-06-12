@@ -1,7 +1,10 @@
 #!/bin/sh
+alias aliases='vim-if-not-emacs ~/.aliases.sh'
 alias c='clear'
 alias dots='vim-if-not-emacs ~/.config/homer/dotfiles.dots'
+alias gjh='cd ~/code/github/joshuaharry'
 alias gp='cd $(cat ~/.config/emacs/current-project)'
+alias gubuntu='docker run --rm -it --entrypoint fish ubuntu'
 alias l='exa -l'
 alias lh='exa -l -a'
 alias ls='exa -l'
