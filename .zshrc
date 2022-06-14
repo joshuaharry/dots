@@ -16,8 +16,8 @@ zinit light sindresorhus/pure
 # by reloading our .zprofile init.
 source "$HOME"/.zprofile
 
-if ! [ "$TERM" = xterm-256color ]; then
-    set -o vi
+if ! [ "$TERM" = xterm-kitty ]; then
+    set -o emacs
 fi
 
 source "$HOME"/.aliases.sh

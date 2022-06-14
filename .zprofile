@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
 eval "$(/opt/homebrew/bin/brew shellenv)"
+export EDITOR=vim-if-not-emacs
 export PATH=/opt/homebrew/opt/node@16/bin:\
 /opt/homebrew/opt/ruby/bin:\
 /opt/homebrew/lib/ruby/gems/3.1.0/bin:\

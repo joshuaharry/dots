@@ -322,6 +322,40 @@
 (set-face-foreground 'font-lock-comment-face "#999999")
 (set-face-background 'company-tooltip-selection "#353535")
 
+;; Language Server Integration
+
+;; Disable most of the features that come with LSP mode; I only use it for
+;; linting, autocomplete, and automatic formatting most of the time.
+(setq
+ lsp-enable-symbol-highlighting nil
+ lsp-enable-indentation nil
+ lsp-ui-doc-enable nil
+ lsp-ui-doc-show-with-cursor nil
+ lsp-ui-doc-show-with-mouse nil
+ lsp-ui-doc-show-with-mouse nil
+ lsp-headerline-breadcrumb-enable nil
+ lsp-ui-sideline-enable nil
+ lsp-ui-sideline-show-code-actions nil
+ lsp-ui-sideline-enable nil
+ lsp-ui-sideline-show-hover nil
+ lsp-modeline-code-actions-enable nil
+ lsp-ui-sideline-enable nil
+ lsp-ui-sideline-show-diagnostics nil 
+ lsp-eldoc-enable-hover nil
+ lsp-signature-auto-activate nil
+ lsp-signature-render-documentation nil)
+
+;; Sometimes, we would prefer to use `flycheck' to lint the buffer instead of
+;; LSP mode. This can create problems because the LSP UI clashes with the
+;; Flycheck UI. To make sure flycheck wins, one can run:
+;;
+;; (setq-local lsp-diagnostics-provider :none
+;; 	       lsp-modeline-diagnostics-enable nil)
+;;
+;; In the major mode hook for a particular buffer. 
+(use-package lsp-mode
+  :config (add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html")))
+
 ;; LISP Development
 (use-package rainbow-delimiters)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
@@ -362,6 +396,11 @@
 
 ;; Golang
 (use-package go-mode)
+(add-hook 'go-mode-hook #'lsp)
+
+;; Terraform
+(use-package terraform-mode)
+(add-hook 'terraform-mode-hook #'lsp)
 
 ;; Ruby/Rails
 (use-package inf-ruby)
@@ -469,57 +508,15 @@
   :straight (efmt :type git :host github :repo "joshuaharry/efmt"))
 
 (setq *efmt-format-alist*
-      `(("js" ("prettier" "-w" "<TARGET>"))
-	("jsx" ("prettier" "-w" "<TARGET>"))
-	("ts" ("prettier" "-w" "<TARGET>"))
-	("tsx" ("prettier" "-w" "<TARGET>"))
-	("json" ("prettier" "-w" "<TARGET>"))
-	("md" ("prettier" "-w" "<TARGET>"))
-	("html" ("prettier" "-w" "<TARGET>"))
-	("yml" ("prettier" "-w" "<TARGET>"))
-	("yaml" ("prettier" "-w" "<TARGET>"))
-	;; Not defined here, but it will be...
+      `((web-mode ("prettier" "-w" "<TARGET>"))
 	("erb" ("htmlbeautifier" "<TARGET>"))
+	(yaml-mode ("prettier" "-w" "<TARGET>"))
+	(ruby-mode ,#'lsp-format-buffer)
 	("go" ,#'gofmt)
-	("rb" ,#'lsp-format-buffer)
 	("lisp" ,#'jlib/indent-lisp)
 	("el" ,#'jlib/indent-lisp)
 	("clj" ,#'jlib/indent-lisp)))
 
 (global-set-key (kbd "C-c p") #'efmt)
-
-;; Language Server Integration
-
-;; Disable most of the features that come with LSP mode; I only use it for
-;; linting, autocomplete, and automatic formatting most of the time.
-(setq
- lsp-enable-symbol-highlighting nil
- lsp-enable-indentation nil
- lsp-ui-doc-enable nil
- lsp-ui-doc-show-with-cursor nil
- lsp-ui-doc-show-with-mouse nil
- lsp-ui-doc-show-with-mouse nil
- lsp-headerline-breadcrumb-enable nil
- lsp-ui-sideline-enable nil
- lsp-ui-sideline-show-code-actions nil
- lsp-ui-sideline-enable nil
- lsp-ui-sideline-show-hover nil
- lsp-modeline-code-actions-enable nil
- lsp-ui-sideline-enable nil
- lsp-ui-sideline-show-diagnostics nil 
- lsp-eldoc-enable-hover nil
- lsp-signature-auto-activate nil
- lsp-signature-render-documentation nil)
-
-;; Sometimes, we would prefer to use `flycheck' to lint the buffer instead of
-;; LSP mode. This can create problems because the LSP UI clashes with the
-;; Flycheck UI. To make sure flycheck wins, one can run:
-;;
-;; (setq-local lsp-diagnostics-provider :none
-;; 	       lsp-modeline-diagnostics-enable nil)
-;;
-;; In the major mode hook for a particular buffer. 
-(use-package lsp-mode
-  :config (add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html")))
 
 (add-hook 'ruby-mode-hook #'lsp)
