@@ -513,6 +513,7 @@
 	(yaml-mode ("prettier" "-w" "<TARGET>"))
 	(json-mode ("prettier" "-w" "<TARGET>"))
 	(markdown-mode ("prettier" "-w" "<TARGET>"))
+	(python-mode ("black" "<TARGET>"))
 	("erb" ("htmlbeautifier" "<TARGET>"))
 	(ruby-mode ,#'lsp-format-buffer)
 	("go" ,#'gofmt)
