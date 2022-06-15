@@ -398,6 +398,13 @@
 (use-package go-mode)
 (add-hook 'go-mode-hook #'lsp)
 
+;; Python
+(add-hook 'python-mode-hook #'lsp)
+
+;; Unset Python mode's default keybindings.
+(with-eval-after-load 'python
+  (setq python-mode-map (make-sparse-keymap)))
+
 ;; Terraform
 (use-package terraform-mode)
 (add-hook 'terraform-mode-hook #'lsp)
