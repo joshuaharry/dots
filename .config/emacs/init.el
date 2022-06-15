@@ -484,16 +484,17 @@
 
 (defun jlib/web-mode-hook ()
   "Hook for entering and editing web mode files."
+  ;; Treat ' as a string. I spent *years* trying to figure out how to make
+  ;; web-mode do this correctly, and I only found the solution after I tried
+  ;; to write a major mode of my own. You live and you learn :)
+  (modify-syntax-entry ?' "\"" web-mode-syntax-table)
   (setq
    web-mode-auto-close-style 2
    web-mode-markup-indent-offset 2
    web-mode-enable-auto-quoting nil
    web-mode-css-indent-offset 2
    web-mode-code-indent-offset 2)
-  ;; Treat ' as a string. I spent *years* trying to figure out how to make
-  ;; web-mode do this correctly, and I only found the solution after I tried
-  ;; to write a major mode of my own. You live and you learn :)
-  (modify-syntax-entry ?' "\"" web-mode-syntax-table))
+  (lsp))
 
 (add-hook 'web-mode-hook #'jlib/web-mode-hook)
 
@@ -509,8 +510,10 @@
 
 (setq *efmt-format-alist*
       `((web-mode ("prettier" "-w" "<TARGET>"))
-	("erb" ("htmlbeautifier" "<TARGET>"))
 	(yaml-mode ("prettier" "-w" "<TARGET>"))
+	(json-mode ("prettier" "-w" "<TARGET>"))
+	(markdown-mode ("prettier" "-w" "<TARGET>"))
+	("erb" ("htmlbeautifier" "<TARGET>"))
 	(ruby-mode ,#'lsp-format-buffer)
 	("go" ,#'gofmt)
 	("lisp" ,#'jlib/indent-lisp)
