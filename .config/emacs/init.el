@@ -134,6 +134,14 @@
 (global-set-key (kbd "C-S-j") #'other-window)
 (global-set-key (kbd "C-S-k") #'jlib/other-window-backwards)
 
+;; Buffer Management
+(defun reset ()
+  "Reset all of the buffers in Emacs."
+  (interactive)
+  (let ((kill-buffer-query-functions nil))
+    (dolist (cur (buffer-list))
+      (kill-buffer cur))))
+
 ;; Emacs LISP Editing Config
 (defun jlib/indent-lisp ()
   "Indent the buffer in a LISP-y way for me."
@@ -368,6 +376,13 @@
 ;; Common LISP
 (use-package sly)
 
+(defun jlib/sly-mode-hook ()
+  (interactive)
+  "Hook for editing code in SLY"
+  (define-key sly-editing-mode-map (kbd "M-n") #'company-complete))
+
+(add-hook 'sly-mode-hook #'jlib/sly-mode-hook)
+
 ;; YAML Files
 (use-package yaml-mode)
 
@@ -425,60 +440,6 @@
 
 (add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
 
-(defun jlib/--spawn-vterm (buffer-name project-dir command)
-  "Create a buffer named BUFFER-NAME and invoke COMMAND inside of PROJECT_DIR."
-  (jlib/shell)
-  (rename-buffer buffer-name)
-  (vterm-send-string (concat "cd " project-dir))
-  (vterm-send-return)
-  (vterm-send-string command)
-  (vterm-send-return))
-
-(defun rails (project-dir)
-  "Start a terminal that runs rails server /a terminal that runs rails test."
-  (interactive
-   (list (read-directory-name "Where is this Rails project? " default-directory)))
-  (split-window-horizontally)
-  (windmove-right)
-  (jlib/--spawn-vterm "rails-server" project-dir "./bin/dev")
-  (jlib/--spawn-vterm "rails-tests" project-dir "watchexec -c -e rb,erb ./bin/rails test")
-  (jlib/shell)
-  (rename-buffer "rails")
-  (windmove-left))
-
-(defun npm (project-dir)
-  "Start a terminal that runs npm test/npm start."
-  (interactive
-   (list (read-directory-name "Where is this npm project? " default-directory)))
-  (split-window-horizontally)
-  (windmove-right)
-  (jlib/--spawn-vterm "npm-start" project-dir "npm start")
-  (jlib/--spawn-vterm "npm-test" project-dir "npm test")
-  (jlib/shell)
-  (rename-buffer "npm")
-  (windmove-left))
-
-(defun jlib/--kill-when-exists (buf)
-  "Kill the buffer BUF when it exists; otherwise, do nothing."
-  (when (bufferp (get-buffer buf))
-    (kill-buffer buf)))
-
-(defun kill-rails ()
-  "Destroy all the rails buffers/processes that are currently open."
-  (interactive)
-  (let ((kill-buffer-query-functions nil))
-    (jlib/--kill-when-exists "rails")
-    (jlib/--kill-when-exists "rails-server")
-    (jlib/--kill-when-exists "rails-tests")))
-
-(defun kill-npm ()
-  "Kill all of the npm buffers/processes that are currently open."
-  (interactive)
-  (let ((kill-buffer-query-functions nil))
-    (jlib/--kill-when-exists "npm")
-    (jlib/--kill-when-exists "npm-test")
-    (jlib/--kill-when-exists "npm-start")))
-
 ;; Web Mode Formatting
 (use-package web-mode)
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
@@ -495,6 +456,7 @@
   ;; web-mode do this correctly, and I only found the solution after I tried
   ;; to write a major mode of my own. You live and you learn :)
   (modify-syntax-entry ?' "\"" web-mode-syntax-table)
+  (modify-syntax-entry ?` "\"" web-mode-syntax-table)
   (setq
    web-mode-auto-close-style 2
    web-mode-markup-indent-offset 2
