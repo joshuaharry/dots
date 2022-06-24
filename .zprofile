@@ -6,6 +6,7 @@ export PATH=/opt/homebrew/opt/node@16/bin:\
 /opt/homebrew/lib/ruby/gems/3.1.0/bin:\
 /opt/homebrew/bin:\
 /opt/homebrew/sbin:\
+~/.opam/default/bin:\
 /usr/local/bin:\
 /usr/bin:\
 /bin:\

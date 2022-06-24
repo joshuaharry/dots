@@ -3,7 +3,7 @@
 ;;; VANILLA CONFIGURATION
 ;;; ------------------------------------------------------
 
-;; Always run Emacs as a full desktop. If you're profiling, you probably
+;; Always run Emacs in fullscreen mode. If you're profiling, you probably
 ;; want to turn this off, so we keep it at the top of the file.
 (set-frame-parameter nil 'fullscreen 'fullboth)
 
@@ -424,6 +424,17 @@
 (use-package terraform-mode)
 (add-hook 'terraform-mode-hook #'lsp)
 
+;; Rust
+(use-package rust-mode)
+(use-package flycheck-rust :demand t)
+
+(defun jlib/rust-mode-hook ()
+  "Hook for editing rust files."
+  (flycheck-mode)
+  (lsp))
+
+(add-hook 'rust-mode-hook #'lsp)
+
 ;; Ruby/Rails
 (use-package inf-ruby)
 
@@ -436,7 +447,8 @@
 (defun jlib/ruby-mode-hook ()
   "Hook for editing Ruby code."
   (interactive)
-  (define-key ruby-mode-map (kbd "C-c C-c") #'ruby-send-buffer))
+  (define-key ruby-mode-map (kbd "C-c C-c") #'ruby-send-buffer)
+  (lsp))
 
 (add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
 
@@ -467,6 +479,22 @@
 
 (add-hook 'web-mode-hook #'jlib/web-mode-hook)
 
+;; Ocaml
+(use-package tuareg)
+(use-package merlin)
+(add-hook 'tuareg-mode-hook #'merlin-mode)
+
+;; Racket
+(use-package racket-mode)
+
+(defun jlib/racket-mode-hook ()
+  "Hook for starting Racket mode."
+  (racket-start-back-end)
+  (setq racket-show-functions '(racket-show-echo-area))
+  (racket-xp-mode))
+
+(add-hook 'racket-mode-hook #'jlib/racket-mode-hook)
+
 ;; Dotfile Management
 (use-package homer
   :demand t
@@ -484,12 +512,13 @@
 	(markdown-mode ("prettier" "-w" "<TARGET>"))
 	(python-mode ("black" "<TARGET>"))
 	("erb" ("htmlbeautifier" "<TARGET>"))
+	("ml" ("ocamlformat" "--enable-outside-detected-project" "<TARGET>" "-i"))
 	(ruby-mode ,#'lsp-format-buffer)
 	("go" ,#'gofmt)
+	("rkt" ,#'jlib/indent-lisp)
+	("rs" ("rustfmt" "<TARGET>"))
 	("lisp" ,#'jlib/indent-lisp)
 	("el" ,#'jlib/indent-lisp)
 	("clj" ,#'jlib/indent-lisp)))
 
 (global-set-key (kbd "C-c p") #'efmt)
-
-(add-hook 'ruby-mode-hook #'lsp)

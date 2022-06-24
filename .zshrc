@@ -25,4 +25,4 @@ export ELDEV_EMACS=emacs
 setopt auto_cd
 
 # opam configuration
-[[ ! -r /Users/joshuahoeflich/.opam/opam-init/init.zsh ]] || source /Users/joshuahoeflich/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+# [[ ! -r /Users/joshuahoeflich/.opam/opam-init/init.zsh ]] || source /Users/joshuahoeflich/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
