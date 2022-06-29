@@ -142,6 +142,14 @@
     (dolist (cur (buffer-list))
       (kill-buffer cur))))
 
+;; LaTeX Editing Config
+(defun jlib/latex-mode ()
+  "Settings for editing LaTeX code."
+  (interactive)
+  (define-key latex-mode-map (kbd "C-j") #'set-mark-command))
+
+(add-hook 'latex-mode-hook #'jlib/latex-mode)
+
 ;; Emacs LISP Editing Config
 (defun jlib/indent-lisp ()
   "Indent the buffer in a LISP-y way for me."
@@ -499,6 +507,9 @@
 (use-package homer
   :demand t
   :straight (homer :type git :host github :repo "joshuaharry/homer"))
+
+;; Direnv Integration
+(use-package direnv :demand t)
 
 ;; Code Formatting
 (use-package efmt
