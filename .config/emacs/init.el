@@ -436,6 +436,14 @@
 (use-package rust-mode)
 (use-package flycheck-rust :demand t)
 
+;; C Code
+(defun jlib/c-mode-hook ()
+  (interactive)
+  "Hook for when I'm editing C code."
+  (flycheck-mode))
+
+(add-hook 'c-mode-hook #'jlib/c-mode-hook)
+
 (defun jlib/rust-mode-hook ()
   "Hook for editing rust files."
   (flycheck-mode)
@@ -522,6 +530,7 @@
 	(json-mode ("prettier" "-w" "<TARGET>"))
 	(markdown-mode ("prettier" "-w" "<TARGET>"))
 	(python-mode ("black" "<TARGET>"))
+	(latex-mode ("/opt/homebrew/Cellar/latexindent/3.18/bin/latexindent" "-w" "<TARGET>"))
 	("erb" ("htmlbeautifier" "<TARGET>"))
 	("ml" ("ocamlformat" "--enable-outside-detected-project" "<TARGET>" "-i"))
 	(ruby-mode ,#'lsp-format-buffer)
