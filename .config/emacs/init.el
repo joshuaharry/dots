@@ -529,6 +529,7 @@
 	(yaml-mode ("prettier" "-w" "<TARGET>"))
 	(json-mode ("prettier" "-w" "<TARGET>"))
 	(markdown-mode ("prettier" "-w" "<TARGET>"))
+	(c-mode ("clang-format" "-i" "<TARGET>"))
 	(python-mode ("black" "<TARGET>"))
 	(latex-mode ("/opt/homebrew/Cellar/latexindent/3.18/bin/latexindent" "-w" "<TARGET>"))
 	("erb" ("htmlbeautifier" "<TARGET>"))
