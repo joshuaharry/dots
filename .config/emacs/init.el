@@ -378,7 +378,8 @@
 (add-hook 'lisp-interaction-mode-hook #'rainbow-delimiters-mode)
 
 ;; Clojure
-(use-package cider)
+(use-package cider
+  :config (setq cider-clojure-cli-aliases ":test:user"))
 (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 
 ;; Common LISP
@@ -443,6 +444,7 @@
   (flycheck-mode))
 
 (add-hook 'c-mode-hook #'jlib/c-mode-hook)
+(add-hook 'c++-mode-hook #'jlib/c-mode-hook)
 
 (defun jlib/rust-mode-hook ()
   "Hook for editing rust files."
@@ -530,6 +532,7 @@
 	(json-mode ("prettier" "-w" "<TARGET>"))
 	(markdown-mode ("prettier" "-w" "<TARGET>"))
 	(c-mode ("clang-format" "-i" "<TARGET>"))
+	(c++-mode ("clang-format" "-i" "<TARGET>"))
 	(python-mode ("black" "<TARGET>"))
 	(latex-mode ("/opt/homebrew/Cellar/latexindent/3.18/bin/latexindent" "-w" "<TARGET>"))
 	("erb" ("htmlbeautifier" "<TARGET>"))
@@ -540,6 +543,7 @@
 	("rs" ("rustfmt" "<TARGET>"))
 	("lisp" ,#'jlib/indent-lisp)
 	("el" ,#'jlib/indent-lisp)
+	("edn" ,#'jlib/indent-lisp)
 	("clj" ,#'jlib/indent-lisp)))
 
 (global-set-key (kbd "C-c p") #'efmt)
