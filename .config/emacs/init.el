@@ -3,8 +3,7 @@
 ;;; VANILLA CONFIGURATION
 ;;; ------------------------------------------------------
 
-;; Always run Emacs in fullscreen mode. If you're profiling, you probably
-;; want to turn this off, so we keep it at the top of the file.
+;; Always run Emacs in fullscreen mode.
 (set-frame-parameter nil 'fullscreen 'fullboth)
 
 ;; Global settings
@@ -311,13 +310,13 @@
   :config (ctrlf-mode))
 
 (use-package company
-  :demand t
   :config
   (setq company-idle-delay nil)
   (global-set-key (kbd "M-n") #'company-complete)
   ;; Overwrite this warning; we don't need it.
-  (defun company--warn-changed-binding () nil)
-  (global-company-mode))
+  (defun company--warn-changed-binding () nil))
+
+(global-company-mode)
 
 ;; Linting
 (use-package flycheck)
@@ -515,7 +514,7 @@
   :straight (homer :type git :host github :repo "joshuaharry/homer"))
 
 ;; Direnv Integration
-(use-package direnv :demand t)
+(use-package direnv)
 
 ;; Code Formatting
 (use-package efmt

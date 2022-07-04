@@ -1,4 +1,0 @@
-# name: expd
-# key: expd
-# --
-export default $0;
