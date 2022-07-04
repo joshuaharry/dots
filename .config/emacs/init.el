@@ -301,13 +301,11 @@
 (exec-path-from-shell-initialize)
 
 ;; Useful global modes
-(use-package selectrum
-  :demand t
-  :config (selectrum-mode))
+(use-package selectrum)
+(selectrum-mode)
 
-(use-package ctrlf
-  :demand t
-  :config (ctrlf-mode))
+(use-package ctrlf)
+(ctrlf-mode)
 
 (use-package company
   :config
