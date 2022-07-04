@@ -19,4 +19,5 @@ export PATH=/opt/homebrew/opt/llvm/bin:\
 /Applications/Emacs.app/Contents/MacOS/bin-arm64-11:\
 /Applications/Emacs.app/Contents/MacOS/libexec-arm64-11:\
 ~/Library/Python/3.9/bin:\
-/Library/TeX/texbin
+/Library/TeX/texbin:\
+~/.ghcup/bin

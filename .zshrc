@@ -25,3 +25,5 @@ export ELDEV_EMACS=emacs
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib -Wl,-rpath,/opt/homebrew/opt/llvm/lib"
 setopt auto_cd
 eval "$(direnv hook zsh)"
+
+[ -f "/Users/joshuahoeflich/.ghcup/env" ] && source "/Users/joshuahoeflich/.ghcup/env" # ghcup-env

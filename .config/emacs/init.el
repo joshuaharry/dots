@@ -433,10 +433,6 @@
 (use-package terraform-mode)
 (add-hook 'terraform-mode-hook #'lsp)
 
-;; Rust
-(use-package rust-mode)
-(use-package flycheck-rust :demand t)
-
 ;; C Code
 (defun jlib/c-mode-hook ()
   (interactive)
