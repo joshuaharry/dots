@@ -1,0 +1,6 @@
+# name: defn
+# key: defn
+# --
+(defun ${1:name} (${2:args})
+  "${3:docs}"
+  $0)
