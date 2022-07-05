@@ -89,37 +89,40 @@
 (global-set-key (kbd "C--") #'jlib/decrease-font-size)
 
 ;;; Window Management
+(defvar *jlib/window-adjustment-amount* 10
+  "Control how large window adjustments are.")
+
 (defun jlib/push-border-left ()
   "Push the border of the current window I am editing to the left."
   (interactive)
   (when (> (length (window-list)) 1)
     (if (window-right (get-buffer-window))
-        (enlarge-window-horizontally 5)
-      (shrink-window-horizontally 5))))
+        (enlarge-window-horizontally *jlib/window-adjustment-amount*)
+      (shrink-window-horizontally *jlib/window-adjustment-amount*))))
 
 (defun jlib/push-border-right ()
   "Push the border of the current window I am editing to the right."
   (interactive)
   (when (> (length (window-list)) 1)
     (if (window-left (get-buffer-window))
-        (enlarge-window-horizontally 5)
-      (shrink-window-horizontally 5))))
+        (enlarge-window-horizontally *jlib/window-adjustment-amount*)
+      (shrink-window-horizontally *jlib/window-adjustment-amount*))))
 
 (defun jlib/push-border-down ()
   "Push the border of the current window I am editing downwards."
   (interactive)
   (when (> (length (window-list)) 1)
     (if (window-in-direction 'below)
-        (enlarge-window 5)
-      (shrink-window 5))))
+        (enlarge-window *jlib/window-adjustment-amount*)
+      (shrink-window *jlib/window-adjustment-amount*))))
 
 (defun jlib/push-border-up ()
   "Push the border of the current window I am editing upwards."
   (interactive)
   (when (> (length (window-list)) 1)
     (if (window-in-direction 'above)
-        (enlarge-window 5)
-      (shrink-window 5))))
+        (enlarge-window *jlib/window-adjustment-amount*)
+      (shrink-window *jlib/window-adjustment-amount*))))
 
 (defun jlib/other-window-backwards ()
   "Go to the previous window backwards."
@@ -329,12 +332,6 @@
 (use-package yasnippet)
 (yas-global-mode)
 
-;; Theming
-(use-package doom-themes)
-(load-theme 'doom-ir-black t)
-(set-face-foreground 'font-lock-comment-face "#999999")
-(set-face-background 'company-tooltip-selection "#353535")
-
 ;; Language Server Integration
 
 ;; Disable most of the features that come with LSP mode; I only use it for
@@ -447,11 +444,19 @@
 (add-hook 'rust-mode-hook #'lsp)
 
 ;; Ruby/Rails
-(use-package inf-ruby)
+(use-package inf-ruby
+  :config
+  (define-key inf-ruby-mode-map (kbd "M-n") #'company-complete))
 
 (add-to-list
  'display-buffer-alist
  `("ruby"
+   (display-buffer-at-bottom)
+   (window-height . 0.25)))
+
+(add-to-list
+ 'display-buffer-alist
+ `("rails"
    (display-buffer-at-bottom)
    (window-height . 0.25)))
 

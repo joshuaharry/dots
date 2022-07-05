@@ -20,4 +20,4 @@
  read-process-output-max (* 1024 1024))
 
 ;; Load a dark theme from the beginning.
-(load-theme 'wheatgrass)
+(load-theme 'modus-vivendi)
