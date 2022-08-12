@@ -332,6 +332,10 @@
 (use-package yasnippet)
 (yas-global-mode)
 
+;; Multiple Cursors
+(use-package multiple-cursors)
+(global-set-key (kbd "C-c s") #'mc/edit-lines)
+
 ;; Language Server Integration
 
 ;; Disable most of the features that come with LSP mode; I only use it for
@@ -477,6 +481,7 @@
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode)) 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(setq web-mode-enable-current-element-highlight t)
 
 (defun jlib/web-mode-hook ()
   "Hook for entering and editing web mode files."

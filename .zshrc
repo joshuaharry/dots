@@ -24,4 +24,5 @@ source "$HOME"/.aliases.sh
 export ELDEV_EMACS=emacs
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib -Wl,-rpath,/opt/homebrew/opt/llvm/lib"
 setopt auto_cd
+set -o vi
 eval "$(direnv hook zsh)"

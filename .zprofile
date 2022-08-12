@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 eval "$(/opt/homebrew/bin/brew shellenv)"
-export EDITOR="$(if [ $TERM = xterm-256color ]; then printf "%s" vim-if-not-emacs; else printf "%s" nvim; fi)"
+export EDITOR=nvim
 export PATH=/opt/homebrew/opt/llvm/bin:\
 /opt/homebrew/opt/node@16/bin:\
 /opt/homebrew/opt/ruby/bin:\
