@@ -2,6 +2,7 @@
 ~/.config/emacs/early-init.el
 ~/.config/emacs/init.el
 ~/.config/emacs/snippets
+~/.config/fish/config.fish
 ~/.config/homer/dotfiles.dots
 ~/.config/kitty
 ~/.config/nvim/init.vim
