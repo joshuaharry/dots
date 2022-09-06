@@ -2,6 +2,7 @@ if status is-interactive
   fish_vi_key_bindings
 
   fish_add_path "$HOME"/.ghcup/bin
+  fish_add_path "$HOME"/.cargo/bin
   fish_add_path "$HOME"/.local/bin
   fish_add_path "$HOME"/.opam/default/bin
   fish_add_path "$HOME"/Library/Python/3.9/bin:/Library/TeX/texbin
@@ -33,4 +34,7 @@ if status is-interactive
   alias v='nvim'
   alias vi='nvim'
   alias vim='nvim'
+  alias sc='pwd > ~/.config/emacs/current-project'
+  alias gp='cd (cat ~/.config/emacs/current-project)'
+  alias rimraf='rm -rf'
 end
