@@ -1,0 +1,6 @@
+{
+  "suggest.autoTrigger": "none",
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "~/Library/Python/3.9/bin/black",
+  "rust-analyzer.checkOnSave.command": "clippy"
+}

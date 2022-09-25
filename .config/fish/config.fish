@@ -37,4 +37,7 @@ if status is-interactive
   alias sc='pwd > ~/.config/emacs/current-project'
   alias gp='cd (cat ~/.config/emacs/current-project)'
   alias rimraf='rm -rf'
+  alias ggh='cd ~/code/github'
+  alias gjh='cd ~/code/github/joshuaharry'
+  gp
 end

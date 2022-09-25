@@ -6,6 +6,8 @@
 ~/.config/homer/dotfiles.dots
 ~/.config/kitty
 ~/.config/nvim/init.vim
+~/.config/nvim/snippets
+~/.config/nvim/coc-settings.json
 ~/.gitconfig
 ~/.gitignore_global
 ~/.zprofile
