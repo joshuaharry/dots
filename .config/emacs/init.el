@@ -380,16 +380,6 @@
   :config (setq cider-clojure-cli-aliases ":test:user"))
 (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 
-;; Common LISP
-(use-package sly)
-
-(defun jlib/sly-mode-hook ()
-  (interactive)
-  "Hook for editing code in SLY"
-  (define-key sly-editing-mode-map (kbd "M-n") #'company-complete))
-
-(add-hook 'sly-mode-hook #'jlib/sly-mode-hook)
-
 ;; YAML Files
 (use-package yaml-mode)
 
@@ -402,6 +392,8 @@
 
 ;; Better Terminal Emulation
 (use-package vterm)
+(setq vterm-shell "/opt/homebrew/bin/fish")
+
 (setq *jlib/terminal-function* #'vterm)
 
 ;; Documentation
@@ -440,37 +432,15 @@
 (add-hook 'c-mode-hook #'jlib/c-mode-hook)
 (add-hook 'c++-mode-hook #'jlib/c-mode-hook)
 
+(use-package rust-mode)
+(use-package flycheck-rust)
+
 (defun jlib/rust-mode-hook ()
   "Hook for editing rust files."
   (flycheck-mode)
   (lsp))
 
 (add-hook 'rust-mode-hook #'lsp)
-
-;; Ruby/Rails
-(use-package inf-ruby
-  :config
-  (define-key inf-ruby-mode-map (kbd "M-n") #'company-complete))
-
-(add-to-list
- 'display-buffer-alist
- `("ruby"
-   (display-buffer-at-bottom)
-   (window-height . 0.25)))
-
-(add-to-list
- 'display-buffer-alist
- `("rails"
-   (display-buffer-at-bottom)
-   (window-height . 0.25)))
-
-(defun jlib/ruby-mode-hook ()
-  "Hook for editing Ruby code."
-  (interactive)
-  (define-key ruby-mode-map (kbd "C-c C-c") #'ruby-send-buffer)
-  (lsp))
-
-(add-hook 'ruby-mode-hook #'jlib/ruby-mode-hook)
 
 ;; Web Mode Formatting
 (use-package web-mode)
