@@ -113,5 +113,6 @@ nnoremap <leader>sh <cmd>Telescope help_tags<cr>
 " }}}
 
 " Colorscheme {{{
+set background=dark
 colorscheme PaperColor
 " }}}

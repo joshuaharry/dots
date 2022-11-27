@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+VIMRC_PATH = File.join ENV["HOME"], ".config", "nvim", "init.vim"
+
+vimrc_text = File.read VIMRC_PATH
+
+if vimrc_text.include?("set background=light")
+  vimrc_text.gsub!(/set background=light/, "set background=dark")
+else
+  vimrc_text.gsub!(/set background=dark/, "set background=light")
+end
+
+File.open(VIMRC_PATH, 'w') do |file|
+  file.write(vimrc_text)
+end
