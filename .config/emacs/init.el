@@ -470,11 +470,6 @@
 
 (add-hook 'web-mode-hook #'jlib/web-mode-hook)
 
-;; Ocaml
-(use-package tuareg)
-(use-package merlin)
-(add-hook 'tuareg-mode-hook #'merlin-mode)
-
 ;; Racket
 (use-package racket-mode)
 
@@ -503,6 +498,7 @@
       `((web-mode ("prettier" "-w" "<TARGET>"))
 	(yaml-mode ("prettier" "-w" "<TARGET>"))
 	(json-mode ("prettier" "-w" "<TARGET>"))
+	(js-mode ("prettier" "-w" "<TARGET>"))
 	(markdown-mode ("prettier" "-w" "<TARGET>"))
 	(c-mode ("clang-format" "-i" "<TARGET>"))
 	(c++-mode ("clang-format" "-i" "<TARGET>"))
