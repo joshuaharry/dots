@@ -481,6 +481,11 @@
 
 (add-hook 'racket-mode-hook #'jlib/racket-mode-hook)
 
+;; Ruby
+(use-package inf-ruby
+  :config
+  (define-key inf-ruby-mode-map (kbd "M-n") #'company-complete))
+
 ;; Dotfile Management
 (use-package homer
   :demand t

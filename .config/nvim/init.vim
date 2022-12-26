@@ -85,7 +85,7 @@ endfunction
 " }}}
 
 " Vim Closetag {{{
-let g:closetag_filenames = '*.html,*.jsx,*.tsx'
+let g:closetag_filenames = '*.html,*.jsx,*.tsx,*.erb'
 " }}}
 
 " Snippets {{{
